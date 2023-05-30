@@ -1,0 +1,30 @@
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type File {
+    filename: String
+}
+
+type Mutation {
+    uploadImage(
+      image: String!
+      filename: String!
+    ): File
+}
+
+type ImageMeta {
+    filename: String!
+    size: Int!
+}
+
+type Image {
+    image: String!
+}
+
+type Query {
+    getImages: [ImageMeta]!
+    getImage(filename: String!): Image!
+}
+

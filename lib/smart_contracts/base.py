@@ -10,7 +10,6 @@ class ContractBase:
     contract = ""
 
     def __init__(self):
-        self.url = "http://localhost:5001/api/v0"
         self.setup_w3_client()
         self.setup_account()
         self.chain_id = 51515

@@ -1,4 +1,6 @@
-from lib.smart_contracts.base import ContractBase
+from web3 import Web3
+from web3.auto import w3
+from lib.client.contracts.base import ContractBase
 
 class ImageMetadata(ContractBase):
     contract = """
@@ -6,7 +8,7 @@ class ImageMetadata(ContractBase):
         pragma solidity ^0.6.0;
         pragma experimental ABIEncoderV2;
 
-        contract KeyValueStore {
+        contract ImageMetadata {
         
             struct Meta {
                 string ipfs_address;
@@ -30,18 +32,20 @@ class ImageMetadata(ContractBase):
             }
         }
         """
-    def __init__(self):
+    def __init__(self, account_address=None):
         super().__init__()
-        self.contract_address = "0x98F975cA85b80892Fc242963a62F85c9d20144D1"
+        if account_address: self.account_address = Web3.to_checksum_address(account_address)
+        self.contract_address = Web3.to_checksum_address("0xcE947c238Bfc0C31E0d8203b52327b5A4F01830e")
 
-    def set(self, key, meta):
+    def set(self, key, meta, password):
         print(meta)
         contract = self.w3.eth.contract(abi=self.abi, address=self.contract_address)
         contract = contract.functions.set(key, meta)
 
         call_fn = self.prepare_transaction(contract)
-        signed_transaction = self.sign_transaction(call_fn)
-        tx_hash = self.get_transaction_hash(signed_transaction)
+        self.unlock_account(self.account_address, password)
+        tx_hash = self.w3.eth.send_transaction(call_fn)
+        self.lock_account(self.account_address)
         print(self.wait_for_receipt(tx_hash))
 
     def get(self, key):

@@ -1,0 +1,23 @@
+services:
+  server: 
+    hostname: chain-server
+    image: server
+    build: .
+    volumes:
+      - ./:/server/
+    command: 
+      - app.py
+    depends_on:
+      - chain-postgres
+      - chain-ipfs
+    env_file:
+      - .env
+    ports:
+      - ${PORT}:1337
+    networks: 
+      - server-inter-net
+
+networks:
+  server-inter-net:
+    external: true
+    name: inter-net

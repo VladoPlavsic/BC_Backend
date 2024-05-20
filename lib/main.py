@@ -2,6 +2,7 @@ from flask import Flask
 from flask_cors import CORS
 
 app = Flask(__name__)
+app.config.update(TESTING=True, DEBUG=True)
 cors = CORS(app, resource={r"*": {"origins": "*"}})
 
 from lib.api import schema

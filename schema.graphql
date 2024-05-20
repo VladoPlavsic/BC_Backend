@@ -7,12 +7,11 @@ type File {
     filename: String
 }
 
-type Mutation {
-    uploadImage(
-      image: String!
-      filename: String!
-    ): File
-}
+type Student {
+    firstName: String!
+    lastName: String!
+    birthday: Int!
+} 
 
 type ImageMeta {
     filename: String!
@@ -23,8 +22,66 @@ type Image {
     image: String!
 }
 
+type Account {
+    address: String!
+}
+
+type Transaction {
+    blokHash: String,
+    blockNumber: String,
+    to: String
+    gas: String
+    gasPrice: String
+    status: Int
+    type: Int
+}
+
+type Mutation {
+    uploadImage(
+      image: String!
+      filename: String!
+      account: String!
+      password: String!
+    ): File
+
+    addStudent(
+        firstName: String!
+        lastName: String!
+        birthday: Int!
+        account: String!
+        password: String!
+    ): Boolean
+
+    createAccount(password: String!): Account
+
+    sendWei(
+        from_: String!
+        to: String!
+        amount: String!
+        password: String!
+    ): String!
+
+    deployContract(
+        contract: String!
+        accountAddress: String!
+        password: String!
+    ): String
+}
+
 type Query {
     getImages: [ImageMeta]!
     getImage(filename: String!): Image!
+
+    getStudents: [Student]
+
+    canJoin: Boolean!
+    gameEnded: Boolean!
+
+    getAccounts: [String]
+    getBalance(address: String!): String
+    checkTransaction(transactionHash: String!): Transaction
+
+    getCurrentSemaphoreState: String
+    changeLight: String
 }
 

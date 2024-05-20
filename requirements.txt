@@ -62,6 +62,7 @@ typing_extensions==4.6.2
 urllib3==1.26.6
 varint==1.0.2
 web3==6.0.0
+eth_account==0.8.0
 websockets==11.0.3
 Werkzeug==2.3.4
 yarl==1.9.2

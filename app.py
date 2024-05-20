@@ -1,15 +1,5 @@
-def server():
-    from lib import app
-    app.run()
+from lib import app
+from lib.core.config import PORT
 
-def deploy_contract():
-    from lib.client.client import main
-    main()
-
-
-import sys
-
-if len(sys.argv) > 1:
-    deploy_contract()
-else:
-    server()
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=PORT)
